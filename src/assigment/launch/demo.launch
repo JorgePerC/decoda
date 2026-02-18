@@ -1,0 +1,59 @@
+<launch>
+
+  <!-- Args -->
+  <arg name="bagFile" default="$(find assigment)/bags/lidar.bag"/>
+  <arg name="rvizConfig" default="$(find assigment)/launch/config.rviz"/>
+  
+  <!-- Static world frame -->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+        name="world2Ground"
+        args="0 0 0 0 0 0 world ground" />
+
+  <!-- Play rosbag -->
+  <node pkg="rosbag"
+        type="play"
+        name="bag_replay"
+        args="--clock -l $(arg bagFile)"
+        output="screen"/>
+	
+  <param name="use_sim_time" value="true"/>
+
+  <!-- Launch RViz -->
+  <node pkg="rviz"
+        type="rviz"
+        name="rviz"
+        args="-d $(arg rvizConfig)"
+        output="screen"/>
+
+
+  <!-- See documentation at: https://wiki.ros.org/pcl_ros/Tutorials/VoxelGrid%20filtering -->
+  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+  <!-- Run a VoxelGrid filter to clean NaNs and downsample the data -->
+  <!-- <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/lidar" />
+    <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.03
+      filter_limit_max: 2.5
+      filter_limit_negative: False
+      leaf_size: 0.01
+    </rosparam>
+  </node> -->
+  <node pkg="nodelet" type="nodelet" name="normal_estimation" args="load pcl/NormalEstimation pcl_manager" output="screen">
+    <remap from="~input" to="/lidar" />
+    <rosparam>
+       # -[ Mandatory parameters
+       k_search: 30
+       radius_search: 0
+       # Set the spatial locator. Possible values are: 0 (ANN), 1 (FLANN), 2 (organized)
+       spatial_locator: 0
+       # Set viewpoint to origin of the sensor frame (default: 0,0,0)
+       viewpoint_x: 0.0
+       viewpoint_y: 0.0
+       viewpoint_z: 0.0
+     </rosparam>
+   </node>
+
+
+</launch>
+

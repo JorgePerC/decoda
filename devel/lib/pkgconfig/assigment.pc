@@ -1,0 +1,8 @@
+prefix=/home/jorge/decoda_ws/devel
+
+Name: assigment
+Description: Description of assigment
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
