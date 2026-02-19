@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   roslaunch
   pcl_ros
   nodelet
+  message_filters
 )
 
 roslaunch_add_file_check(launch)

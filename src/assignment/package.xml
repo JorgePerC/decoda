@@ -53,6 +53,7 @@
   <depend>tf2_geometry_msgs</depend>
   <depend>pcl_ros</depend>
   <depend>nodelet</depend>
+  <depend>message_filters</depend>
 
   <buildtool_depend>catkin</buildtool_depend>
   
