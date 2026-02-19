@@ -14,7 +14,7 @@ wget -c https://raw.githubusercontent.com/qboticslabs/ros_install_noetic/master/
 Set the workspace as your working directory
 
 ```
-cd decoda_ws
+cd decoda
 ```
 
 Build the workspace 
